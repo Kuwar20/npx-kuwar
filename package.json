@@ -1,0 +1,38 @@
+{
+  "name": "kuwar",
+  "version": "3.3.3",
+  "description": "A personal card for Kuwar Singh",
+  "main": "card.js",
+  "bin": {
+    "kuwar": "./card.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kuwar20/npx-kuwar.git"
+  },
+  "scripts": {
+    "test": "node card.js",
+    "pub": "npm version major & npm publish"
+  },
+  "dependencies": {
+    "boxen": "^4.2.0",
+    "chalk": "^4.1.0",
+    "clear": "^0.1.0",
+    "cli-spinners": "^2.5.0",
+    "inquirer": "^7.3.2",
+    "kuwar": "^4.0.0",
+    "open": "^7.0.4",
+    "ora": "^5.1.0",
+    "request": "^2.88.2"
+  },
+  "keywords": [
+    "card",
+    "npm",
+    "npm card",
+    "npx",
+    "npx card",
+    "business card"
+  ],
+  "author": "Kuwar Singh",
+  "license": "ISC"
+}
