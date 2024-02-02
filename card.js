@@ -10,11 +10,18 @@ const open = require("open");
 const fs = require('fs');
 const request = require('request');
 const path = require('path');
+const opn = require('opn');
 const ora = require('ora');
 const cliSpinners = require('cli-spinners');
 clear();
 
 const prompt = inquirer.createPromptModule();
+
+const openUrl = (url) => {
+    opn(url).catch(() => {
+        console.log(`\n\nCould not open the URL in the default browser. Please open the following link manually:\n${url}\n`);
+    });
+};
 
 const questions = [
     {
@@ -32,25 +39,54 @@ const questions = [
             {
                 name: `Download my ${chalk.magentaBright.bold("Resume")}?`,
                 value: () => {
-                    // cliSpinners.dots;
                     const loader = ora({
                         text: ' Downloading Resume',
                         spinner: cliSpinners.material,
                     }).start();
-                    let pipe = request('https://kuwar-resume.vercel.app/').pipe(fs.createWriteStream('./kuwar-resume.html'));
-                    pipe.on("finish", function () {
-                        let downloadPath = path.join(process.cwd(), 'kuwar-resume.html')
-                        console.log(`\nResume Downloaded at ${downloadPath} \n`);
-                        open(downloadPath)
+        
+                    try {
+                        let pipe = request('https://kuwar-resume.vercel.app/').pipe(fs.createWriteStream('./kuwar-resume.html'));
+        
+                        pipe.on("finish", function () {
+                            let downloadPath = path.join(process.cwd(), 'kuwar-resume.html');
+                            console.log(`\nResume Downloaded at ${downloadPath} \n`);
+        
+                            try {
+                                opn(downloadPath).then(() => {
+                                    loader.stop();
+                                }).catch(() => {
+                                    console.error("Error opening browser. Please open the resume manually.");
+                                    loader.stop();
+                                });
+                            } catch (error) {
+                                console.error("Error opening browser. Please open the resume manually.", error);
+                                loader.stop();
+                            }
+                        });
+        
+                        pipe.on("error", function (error) {
+                            console.error("Error downloading the resume:", error.message);
+                            loader.stop();
+                        });
+                    } catch (error) {
+                        console.error("Error downloading the resume:", error.message);
                         loader.stop();
-                    });
+                    }
                 }
             },
             {
                 name: `Schedule a ${chalk.redBright.bold("Meeting")}?`,
                 value: () => {
-                    open('https://calendly.com/kuwarx1/30min');
-                    console.log("\n\n See you at the meeting \n");
+                    const url = 'https://calendly.com/kuwarx1/30min';
+        
+                    const loader = ora({
+                        text: ' Opening Calendar...',
+                        spinner: cliSpinners.material,
+                    }).start();
+        
+                    openUrl(url);
+        
+                    loader.stop();
                 }
             },
             {
