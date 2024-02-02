@@ -10,7 +10,6 @@ const open = require("open");
 const fs = require('fs');
 const request = require('request');
 const path = require('path');
-const opn = require('opn');
 const ora = require('ora');
 const cliSpinners = require('cli-spinners');
 clear();
@@ -18,7 +17,7 @@ clear();
 const prompt = inquirer.createPromptModule();
 
 const openUrl = (url) => {
-    opn(url).catch(() => {
+    open(url).catch(() => {
         console.log(`\n\nCould not open the URL in the default browser. Please open the following link manually:\n${url}\n`);
     });
 };
@@ -52,7 +51,7 @@ const questions = [
                             console.log(`\nResume Downloaded at ${downloadPath} \n`);
         
                             try {
-                                opn(downloadPath).then(() => {
+                                open(downloadPath).then(() => {
                                     loader.stop();
                                 }).catch(() => {
                                     console.error("Error opening browser. Please open the resume manually: https://kuwar-resume.vercel.app/ \n");
