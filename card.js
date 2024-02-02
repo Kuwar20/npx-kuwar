@@ -55,21 +55,21 @@ const questions = [
                                 opn(downloadPath).then(() => {
                                     loader.stop();
                                 }).catch(() => {
-                                    console.error("Error opening browser. Please open the resume manually.");
+                                    console.error("Error opening browser. Please open the resume manually: https://kuwar-resume.vercel.app/ \n");
                                     loader.stop();
                                 });
                             } catch (error) {
-                                console.error("Error opening browser. Please open the resume manually.", error);
+                                console.error("Error opening browser. Please open the resume manually: https://kuwar-resume.vercel.app/ \n", error);
                                 loader.stop();
                             }
                         });
         
                         pipe.on("error", function (error) {
-                            console.error("Error downloading the resume:", error.message);
+                            console.error("Error opening browser. Please open manually: https://kuwar-resume.vercel.app/ \n", error.message);
                             loader.stop();
                         });
                     } catch (error) {
-                        console.error("Error downloading the resume:", error.message);
+                        console.error(" Error opening browser. Please open manually: https://kuwar-resume.vercel.app/ \n");
                         loader.stop();
                     }
                 }
@@ -78,15 +78,20 @@ const questions = [
                 name: `Schedule a ${chalk.redBright.bold("Meeting")}?`,
                 value: () => {
                     const url = 'https://calendly.com/kuwarx1/30min';
-        
+            
                     const loader = ora({
                         text: ' Opening Calendar...',
                         spinner: cliSpinners.material,
                     }).start();
-        
-                    openUrl(url);
-        
-                    loader.stop();
+            
+                    try {
+                        openUrl(url);
+            
+                        loader.stop();
+                    } catch (error) {
+                        console.error(`Error opening Calendly. Please open manually: https://calendly.com/kuwarx1/30min \n`);
+                        loader.stop();
+                    }
                 }
             },
             {
