@@ -12,6 +12,8 @@ const request = require('request');
 const path = require('path');
 const ora = require('ora');
 const cliSpinners = require('cli-spinners');
+var qrcode = require('qrcode-terminal');
+
 clear();
 
 const prompt = inquirer.createPromptModule();
@@ -42,17 +44,21 @@ const questions = [
                         text: ' Downloading Resume',
                         spinner: cliSpinners.material,
                     }).start();
-        
+
                     try {
                         let pipe = request('https://kuwar-resume.vercel.app/').pipe(fs.createWriteStream('./kuwar-resume.html'));
-        
+
                         pipe.on("finish", function () {
                             let downloadPath = path.join(process.cwd(), 'kuwar-resume.html');
                             console.log(`\nResume Downloaded at ${downloadPath} \n`);
-        
                             try {
                                 open(downloadPath).then(() => {
                                     loader.stop();
+                                    setTimeout(() => {
+                                        qrcode.generate('https://kuwar-resume.vercel.app/', { small: true }, function (qrcode) {
+                                            console.log(qrcode, chalk.blue("\nScan this") + chalk.white(" if you prefer viewing the resume on your ") + chalk.blue("smartphone") + chalk.white(" or if you've ") + chalk.red("encountered any issues\n\n"));
+                                        });
+                                    }, 500);
                                 }).catch(() => {
                                     console.error("Error opening browser. Please open the resume manually: https://kuwar-resume.vercel.app/ \n");
                                     loader.stop();
@@ -62,7 +68,7 @@ const questions = [
                                 loader.stop();
                             }
                         });
-        
+
                         pipe.on("error", function (error) {
                             console.error("Error opening browser. Please open manually: https://kuwar-resume.vercel.app/ \n", error.message);
                             loader.stop();
@@ -77,16 +83,21 @@ const questions = [
                 name: `Schedule a ${chalk.redBright.bold("Meeting")}?`,
                 value: () => {
                     const url = 'https://calendly.com/kuwarx1/30min';
-            
+
                     const loader = ora({
                         text: ' Opening Calendar...',
                         spinner: cliSpinners.material,
                     }).start();
-            
+
                     try {
                         openUrl(url);
-            
+
                         loader.stop();
+                        setTimeout(() => {
+                            qrcode.generate('https://calendly.com/kuwarx1/30min', { small: true }, function (qrcode) {
+                                console.log(qrcode, chalk.white("\nSimply ") + chalk.blue("scan this") + chalk.white(" to schedule the meeting on your ") + chalk.blue("smartphone") + chalk.white(" or if you've ") + chalk.red("encountered any issues\n\n"));
+                            });
+                        }, 500);
                     } catch (error) {
                         console.error(`Error opening Calendly. Please open manually: https://calendly.com/kuwarx1/30min \n`);
                         loader.stop();
@@ -158,9 +169,9 @@ const me = boxen(
 
 console.log(me);
 const tip = [
-    `Tip: Try ${chalk.cyanBright.bold(
-        "cmd/ctrl + click"
-    )} on the links above`,
+    `Tip: Easily ${chalk.cyanBright.bold("open the links")} above in your browser by ${chalk.cyanBright.bold(
+        "cmd/ctrl + clicking"
+    )} on them.`,
     '',
 ].join("\n");
 console.log(tip);
