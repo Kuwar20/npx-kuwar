@@ -1,6 +1,6 @@
 {
   "name": "kuwar",
-  "version": "5.0.0",
+  "version": "5.0.2",
   "description": "A personal card for Kuwar Singh",
   "main": "card.js",
   "bin": {
@@ -20,7 +20,6 @@
     "clear": "^0.1.0",
     "cli-spinners": "^2.5.0",
     "inquirer": "^7.3.2",
-    "kuwar": "^4.0.0",
     "open": "^7.4.2",
     "ora": "^5.1.0",
     "qrcode-terminal": "^0.12.0",
