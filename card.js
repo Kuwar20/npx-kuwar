@@ -124,7 +124,7 @@ const questions = [
             {
                 name: "Just quit. \n",
                 value: () => {
-                    console.log(chalk.green("  Thank you for your time!!\n"));
+                    console.log(chalk.green("Thank you for your time!!\n"));
                 }
             }
         ]
