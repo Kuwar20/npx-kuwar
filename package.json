@@ -1,6 +1,6 @@
 {
   "name": "kuwar",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "A personal card for Kuwar Singh",
   "main": "card.js",
   "bin": {
