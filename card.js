@@ -54,12 +54,7 @@ const questions = [
                             try {
                                 open(downloadPath).then(() => {
                                     loader.stop();
-                                    setTimeout(() => {
-                                        qrcode.generate('https://kuwar-resume.vercel.app/', { small: true }, function (qrcode) {
-                                            console.log(qrcode, chalk.blue("\nScan this QR code") + chalk.white(" if you prefer viewing the resume on your ") + chalk.blue("smartphone") + chalk.white(" or if you've ") + chalk.red("encountered any issues\n\n"));
-                                            handleUserAction(); // Continue after completing the action
-                                        });
-                                    }, 500);
+                                    handleUserAction();
                                 }).catch(() => {
                                     console.error("Error opening browser. Please open the resume manually: https://kuwar-resume.vercel.app/ \n");
                                     loader.stop();
@@ -80,6 +75,26 @@ const questions = [
                     }
                 }
             },
+            {
+                name: `Show QR to access ${chalk.magentaBright.bold("Resume?")}`,
+                value: () => {
+                    const resumeUrl = 'https://kuwar-resume.vercel.app/';
+            
+                    const loader = ora({
+                        text: ' Generating QR code for Resume \n',
+                        spinner: cliSpinners.material,
+                    }).start();
+            
+                    // Generate QR code for the resume URL
+                    qrcode.generate(resumeUrl, { small: true }, function (qrcode) {
+                        setTimeout(() => {
+                            console.log(qrcode, chalk.blue("\nScan this QR code") + chalk.white(" on your smartphone to view the resume\n\n"));
+                            loader.stop();
+                            handleUserAction(); // Continue after completing the action
+                        }, 600);
+                });
+            }
+            },            
             {
                 name: `Schedule a ${chalk.redBright.bold("Meeting")}?`,
                 value: () => {
