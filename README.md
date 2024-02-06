@@ -7,7 +7,7 @@ npx kuwar
 ```
 # Output
 
-![npxkuwar](https://github.com/Kuwar20/npx-kuwar/assets/66473902/0f070c4a-0a69-4fab-82a5-96422dba1797)
+![npx kuwar](https://github.com/Kuwar20/npx-kuwar/assets/66473902/28669a82-a621-4e90-817b-0f7f7491f64d)
 
 
 ### Prerequisite: 
